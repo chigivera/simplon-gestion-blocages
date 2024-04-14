@@ -1,0 +1,177 @@
+body {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+}
+
+.signup-form {
+    height: 70.8%;
+    display: flex;
+    
+    width: 450px;
+    display: flex;
+    padding: 100px 0;
+    background-color: white;
+    align-items: center;
+    position: fixed;
+    left: 0;
+}
+
+.signup-form form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 100px;
+
+    justify-content: space-evenly;
+   
+}
+
+.signup-form h1 {
+    align-self: center;
+    margin-bottom: 20px;
+}
+
+.signup-form input  {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0 10px 10px 0;
+
+}
+.signup-form .input-label {
+
+    margin-top: 10px;
+    background-color: #F3F4F6;
+    padding-left: 5px;
+    padding-top: 5px;
+    border-radius: 10px;
+
+ 
+  }
+   form label ,
+ form label {
+   
+    padding: 4px;
+    background-color: whitesmoke;
+    margin-top: 10px;
+}
+ form label select ,
+ form label select {
+    outline: none;
+    border: none;
+    background: none;
+    padding-right: 170px;
+    color: grey;
+    
+}
+p {
+    align-self: center;
+}
+.signup-form .signup-alt {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+.signup-form .signup-alt .option {
+    background-color: var(--secondary);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding:5px 15px ;
+    color: white;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+.signup-form .signup-alt  .option:hover {
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.8);
+    
+}
+
+.signup-img div{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: var(--primary);
+  
+}
+.signup-img div img {
+    width: 50px;
+    height: 50px;
+
+}
+.signup-img img {
+    
+    height: 600px;
+    margin-left: 500px;
+    
+}
+.signup-form .submit {
+    background-color: var(--secondary);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 15px ;
+    color: white;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    margin: 20px 0;
+}
+.submit:hover {
+    box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+}
+.shape-1 {
+    height: 300px;
+    width: 300px;
+    position: fixed;
+    background-color: #860928;
+    right: 50vw;
+    bottom: 20vh;
+    border-radius: 50%;
+    z-index: -1;
+    animation-name: float;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+
+}
+.shape-2 {
+    height: 80px;
+    width: 80px;
+    position: fixed;
+    background-color: #860928;
+    right: 8vw;
+    top: 5vh;
+    border-radius: 50%;
+    animation-name: float;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: -3s;
+}
+.shape-3     {
+    height: 150px;
+    width: 300px;
+    position: fixed;
+    background-color: #860928;
+    right: 5vw;
+    bottom: 5vh;
+    z-index: -1;
+    animation-name: slide;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: -2s;
+}
+@keyframes float {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(40px);}
+    100%{transform: translateY(0);}
+    
+}
+@keyframes slide {
+    0% {transform: translateX(0);}
+    50% {transform: translateX(40px);}
+    100%{transform: translateX(0);}
+    
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Blocage</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="./styles/student-dashboard.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+<script src="utils/admin.js" defer></script>
+<script src="main.js" type="module" defer></script>
+</head>
+<body>
+    <div class="user-options">
+        <ul>
+            <li>Profile</li>
+            <li>Settings</li>
+            <li id="logout">Logout</li>
+        </ul>
+    </div>
+    <header class="header">
+        <div class="logo">
+
+            <img src="../public/assets/Image 3.png" alt="">
+            <p>Futur Talents School</p>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a id="dashBoard" href="student-dashboard.html">DashBoard</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
+        <div class="profile-dropdown">
+            <i class="ri-account-circle-fill"></i>
+            <p>username</p>
+            <i class="ri-arrow-down-s-fill"></i>
+        </div>
+    </header>
+    <main>
+        <div class="operations">
+
+            <div class="filter">
+                    <form action="#" class="filter-form">
+                    <label class="name" for="difficulte-search"><i class="ri-search-line"></i><input id="difficulte-search" type="text" placeholder="Recherche par Difficulte" value=""></label>
+                    <input type="date" name="date" id="date">
+                    <label class="valide" for="valide">
+                        <input type="checkbox" name="valide" id="valide"> Valide
+                    </label>
+                    <button type="submit" class="filter-btn">Filtrer</button>
+                </form>
+                </div>
+                <div>
+                    <button class="delete">Supprimer</button>
+    
+                </div>
+    
+        </div>
+        <div class="table-blocages">
+            <table >
+                <thead>
+                    <tr>
+                      <th>Check</th>
+                      <th>Nom(s)</th>
+                      <th>Valide</th>
+                      <th>Date</th>
+                      <th>Brief</th>
+                      <th colspan="2">Difficulte</th>
+                      <th>Modal</th>
+                    </tr>
+    
+                </thead>
+                <tbody >
+              </tbody>
+            </table>
+
+        </div>
+    </main>
+    <footer><h3><sub>futur Talents School @Copyright reserved</sub></h3></footer>
+    <div id="modal">
+            <form action="" id="resolutionForm">
+                <div style="width: 100%;display: flex;justify-content: right;">
+                    <i class="ri-close-large-fill"></i>
+        
+                </div>
+                <h2>
+                    Veuillez Valider La Resolution du Blocage
+                </h2><br>
+                <label for="resolution1">
+                    <input type="radio" name="resolution" id="resolution1" value="Encadré dans leurs recherches de solutions">
+                    Encadré dans leurs recherches de solutions</label> <br>
+                <textarea id="resolutionTextarea" name="resolutionTextarea" placeholder="Commentaires..." value="" disabled></textarea><br>
+                
+                <label for="resolution2">
+                    <input type="radio" name="resolution" id="resolution2" value="Aidé par leurs pairs">
+                    Aidé par leurs pairs</label><br>
+                
+                    <label for="resolution3">
+                    <input type="radio" name="resolution" id="resolution3" value="Intervention directe de formatteur">
+                    Intervention directe de formatteur</label><br>
+                
+                
+                    <button type="submit" class="add">Valider</button>
+    
+            </form>
+        </div>
+    
+    <div class="" id="afficher">
+        
+       <div class="">
+        <i class="ri-close-large-fill"></i>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, explicabo modi deserunt iste enim in, earum, provident ratione excepturi id ab eaque pariatur molestiae assumenda. Nobis delectus sunt ea. Earum. </p>
+           
+       </div>
+    </div>
+</body>
+
+</html>

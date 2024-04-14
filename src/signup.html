@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Blocage</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="./styles/signup.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+<script src="main.js" type="module" defer></script>
+<script src="./utils/signup.js" defer></script>
+
+</head>
+<body>
+    <div class="shape-1"></div>
+    <div class="shape-2"></div>
+    <div class="shape-3"></div>
+    <section class="signup-form">
+        <form action="#" class="form">
+            <h1>Sign Up</h1>
+            <label class="input-label" for="name"><p>Nom</p> 
+                <input id="name" type="text" placeholder="name" value="">
+            </label>
+            <label class="input-label" for="email"><p>Email</p> 
+                <input id="email" type="text" placeholder="email" value="">
+            </label>
+            <label class="input-label" for="password"><p>Mot de Passe</p>
+                
+                <input id="password" type="password" placeholder="password" value="">
+            </label>
+            <label for="bootcamp">
+                <p>Bootcamp</p> 
+                <select name="bootcamp" id="bootcamp">
+                    <option value="React">React</option>
+                    <option value="Express.js">Express.js</option>
+                </select>
+            </label>
+            <button class="submit" type="submit">Sign up</button>
+            <p>Or Sign in With</p>
+            <div class="signup-alt">
+                <div class="option">
+                    <i class="ri-google-fill"></i>
+                </div>
+                <div class="option">
+                    <i class="ri-facebook-circle-fill"></i>
+                </div>
+                <div class="option">
+                    <i class="ri-github-fill"></i>
+                </div>
+            </div>
+            <p>Already have an account? <a href="./signin.html">Sign in</a></p>
+            <br>
+            <p>By signing up, you agree with the
+                <a href="">Terms of Use & Privacy Policy</a></p>
+        </form>
+    </section>
+    <div class="signup-img">
+        <img src="../public/assets/Image 1.png" alt="">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+.user-options {
+    display: block;
+    z-index: 1;
+    position: fixed;
+    right: 35px;
+    top: 7%;
+    background-color: whitesmoke;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+
+    padding: 10px;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    width: 120px;
+    color: var(--primary);
+   
+  
+}
+.user-options ul {
+    list-style: none;
+}
+.user-options ul li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary);
+    transition: all 0.3s ease;
+}
+.user-options ul li:hover {
+    cursor: pointer;
+    background-color: var(--primary);
+    color: white;
+}
+header {
+    height: 5%;
+    display: flex;
+    object-fit: contain;
+    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: var(--primary);
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+
+}
+header nav a:visited ,
+header nav a {
+    text-decoration: none;
+    color: white;
+    
+
+}
+header nav a:not(a:last-child) {
+    border-right: 1px white solid;
+    padding-right: 7px;
+}
+header img {
+    height: 25px;
+    margin-right: 10px;
+ 
+}
+header .logo {
+    display: flex;
+    background-color: white;
+    color: var(--primary);
+    font-weight: 700;
+    align-items: center;
+    padding: 0 30px;
+    height: 100%;
+}
+header div {
+    display: flex;
+   
+    align-items: center;
+    color: white;
+    height: 100%;
+}
+header i {
+    font-size: 22px;
+    margin-right: 10px;
+}
+.ri-arrow-down-s-fill {
+    cursor: pointer;
+}
+main {
+    height: 90%;
+    width: 100%;
+    object-fit: contain;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+main > div {
+    display: flex;
+    width: 30%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 90%;
+    flex-direction: column;
+    border: 1px solid var(--primary);
+   
+    margin: 10px;
+    border-radius: 10px;
+}
+.notification {
+    background-color: whitesmoke;
+   overflow: hidden;
+}
+.notification div {
+    display: flex;
+    justify-content: center;
+    
+    color: white;
+    width: 100%;
+    background-color: var(--primary);
+}
+.notification ul {
+    padding-top: 10px;
+    width: 100%;
+    height: 100%;
+}
+.notification ul li {
+    cursor: pointer;
+  
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary);
+    transition: all 0.3s ease;
+    padding-left: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+main > div ul {
+    list-style: none;
+    overflow-y: scroll;
+}
+
+.ticket {
+   
+    object-fit: contain;
+    border: none;
+}
+.ticket > div {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: auto;
+    border-radius: 7px;
+    border: 1px solid var(--primary);
+    
+}
+.ticket div {   
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+}
+.ticket div > div {
+    display: flex;
+  
+    align-items: center;
+    color: white;
+   width: 100%;
+    background-color: var(--primary);
+}
+footer{
+    display: flex;
+    height: 5%;
+    object-fit: contain;
+    overflow: hidden;
+    justify-content: center;
+}
+.ticket div ul {
+    padding-top: 10px;
+    width: 100%;
+    height: 100%;
+}
+.ticket div ul li {
+    cursor: pointer;
+  
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--primary);
+    transition: all 0.3s ease;
+    padding-left: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
