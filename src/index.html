@@ -11,6 +11,7 @@
     rel="stylesheet"
 />
 <script src="./main.js" type="module" defer></script>
+<script src="utils/home.js" defer></script>
 
 </head>
 <body>
@@ -18,7 +19,7 @@
         <ul>
             <li>Profile</li>
             <li>Settings</li>
-            <li>Logout</li>
+            <li id="logout">Logout</li>
         </ul>
     </div>
     <header class="header">
@@ -29,10 +30,10 @@
         </div>
         <nav>
             <a href="index.html">Home</a>
-            <a id="dashBoard" href="student-dashboard.html">DashBoard</a>
+            <a id="dashboard" href="">DashBoard</a>
             <a href="#contact">Contact Us</a>
         </nav>
-        <div class="">
+        <div class="profile-dropdown">
             <i class="ri-account-circle-fill"></i>
             <p>username</p>
             <i class="ri-arrow-down-s-fill"></i>
@@ -46,12 +47,11 @@
                     <h1><i class="ri-notification-2-fill"></i> Notifications</h1>
                 </div>
                 <ul>
-                    <li>notification #1 </li>
-                    <li>notification #2</li>
-                    <li>notification #3</li>
-                    <li>notification #4</li>
-                    <li>notification #5</li>
-                    <li>notification #6</li>
+
+                    <li>Nouveau Brief Dans votre repertoire - 12/04/22</li>
+                    <li>Completez Votre profile - 12/04/22</li>
+                    <li>Bienvenue Sur la Platform Futur Talents School - 12/04/22</li>
+
                 </ul>
             </div>
             <div class="ticket">
@@ -61,10 +61,7 @@
                         <h1><i class="ri-survey-fill"></i> Brief</h1>
                     </div>
                     <ul>
-                        <li>Brief #1</li>
-                        <li>Brief #2</li>
-                        <li>Brief #3</li>
-                        <li>Brief #4</li>
+            
                     </ul>
                 </div>
                 <br>
@@ -74,10 +71,7 @@
                         <h1><i class="ri-dropbox-fill"></i> Rendu</h1>
                     </div>
                     <ul>
-                        <li>rendu #1</li>
-                        <li>rendu #2</li>
-                        <li>rendu #3</li>
-                        <li>rendu #4</li>
+              
                     </ul>
                 </div>
             </div>

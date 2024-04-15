@@ -1,10 +1,56 @@
 const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
 const authenticatedUser = localStorage.getItem("foundUser") ? JSON.parse(localStorage.getItem("foundUser")) : null; 
+
+const handleModifier = (cells, userBriefs) => {
+    let briefInput = document.getElementById("modifier-brief").value;
+    let difficulteInput = document.getElementById("modifier-difficulte").value;
+
+    if (difficulteInput === "") {
+        return alert("Tous les champs doivent être remplis.");
+    }
+
+
+    if (briefInput !== cells[5].innerText) {
+        const briefToRemoveBlocage = userBriefs.find(brief => brief.titre === cells[5].innerText);
+        briefToRemoveBlocage.blocages = briefToRemoveBlocage.blocages.filter(blocage => blocage.difficulte !== cells[6].innerText);
+    
+        const newBrief = userBriefs.find(brief => brief.titre === briefInput);
+        newBrief.blocages.push({
+            etudiant: authenticatedUser.user.nom,
+            difficulte: difficulteInput,
+            valide: false,
+            date: new Date().toISOString().slice(10),
+        });
+    
+    }
+    
+    else if ( difficulteInput !== cells[6].innerText) {
+        const briefToUpdateBlocage = userBriefs.find(brief => brief.titre === briefInput);
+        
+        
+        const blocageToUpdate = briefToUpdateBlocage.blocages.find(blocage => blocage.difficulte === cells[6].innerText)
+        blocageToUpdate.difficulte = difficulteInput
+    }
+    const filteredBriefs = briefs.filter(brief => brief.group && brief.group.every(nom => nom !== authenticatedUser.user.nom));
+
+    const updatedBriefs = [...userBriefs,...filteredBriefs]
+    localStorage.setItem("briefs", JSON.stringify(updatedBriefs));
+  
+    document.getElementById("modifier").style.display = "none";
+}
+
+
+
 if(!authenticatedUser) {
     window.location.href = "signin.html";
 } else if (briefs) {
     const table = document.querySelector("tbody")
-    const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
+    let userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5;
+    if(index) {
+        userBriefs =  userBriefs.slice(index,index+6)
+    }
+
     userBriefs.map((brief,index) => {
         brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).map(blocage => {
             table.innerHTML += `
@@ -51,7 +97,6 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
             
     
     ).map((blocage,index) => {
-            console.log(brief)
             table.innerHTML += `
             <tr>
                   <td><input class="delete-checkbox" id=${index} type="checkbox" name="delete"/></td>
@@ -67,6 +112,87 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
             `
         })
     })
+    document.querySelectorAll(".ri-file-edit-line").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
+            let userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom)); 
+    
+            document.getElementById("modifier-brief").innerHTML = "";
+            userBriefs.forEach(brief => {
+                document.getElementById("modifier-brief").innerHTML += `<option value="${brief.titre}">${brief.titre}</option>`;
+            });
+    
+            const row = btn.closest("tr");
+            const cells = row.querySelectorAll("td");
+            document.getElementById("modifier-brief").value = cells[4].innerText;
+            document.getElementById("modifier-difficulte").value = cells[6].innerText;
+            document.getElementById("modifier").style.display = "flex";
+    
+            const modifierForm = document.querySelector("#modifier form");
+            modifierForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                handleModifier(cells, userBriefs);
+            });
+        });
+    });
+  
+document.querySelectorAll(".ri-eye-line").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
+        const difficulteText = e.target.parentElement.previousElementSibling;
+        const briefText = difficulteText.previousElementSibling
+        const blocage = briefs.filter(brief =>  brief.titre === briefText.innerText).map(brief=>brief.blocages.find(blocage => blocage && blocage.difficulte===difficulteText.innerText))
+
+        if (blocage[0].modal) {
+            const modalType = blocage[0].modal.description;
+            const commentary = blocage[0].modal.commentaire;
+            document.getElementById("afficher").style.display = "flex";
+            document.querySelector("#afficher div p").innerHTML = `<p>Difficulty: ${difficulteText.innerText}</p><p>Type: ${modalType}</p><p>Commentary: ${commentary}</p>`;
+        } else {
+            document.getElementById("afficher").style.display = "flex";
+            document.querySelector("#afficher div p").textContent = `Difficulty: ${difficulteText.innerText}`;
+
+        }
+    });
+});
+deleteButton.addEventListener("click", () => {
+    const checkedCheckboxes = document.querySelectorAll(".delete-checkbox:checked");
+  
+    if (checkedCheckboxes.length === 0) {
+      alert("Veuillez selectionner au moins un blocage.");
+      return;
+    }
+  
+    const confirmed = confirm("Etes-vous sur de vouloir supprimer ces blocages ?");
+  
+    if (!confirmed) {
+      return;
+    }
+  
+    const selectedBlocages = Array.from(checkedCheckboxes).map(checkbox => {
+      const row = checkbox.closest("tr");
+      const cells = row.querySelectorAll("td");
+  
+      return {brief: cells[5].innerText, difficulte: cells[6].innerText};
+    });
+  
+    const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : [];
+  
+    selectedBlocages.forEach(selected => {
+      const userBriefs = briefs.find(brief => brief.titre === selected.brief);
+      if (userBriefs) {
+        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte)
+      }
+    });
+  
+    Array.from(checkedCheckboxes).map(checkbox => {
+      const row = checkbox.closest("tr").remove();
+    }) 
+    
+    localStorage.setItem("briefs", JSON.stringify(briefs));
+  
+  });
+  
 })
 
 document.querySelector(".add").addEventListener("click",()=>{
@@ -112,12 +238,27 @@ document.querySelector("#ajouter form").addEventListener("submit",(e)=>{
 
 
 document.querySelectorAll(".ri-eye-line").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const difficulteText = e.target.parentElement.previousElementSibling.innerText;
-    document.getElementById("afficher").style.display = "flex";
-    document.querySelector("#afficher div p").textContent = difficulteText
-  });
+    btn.addEventListener("click", (e) => {
+        const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
+        const difficulteText = e.target.parentElement.previousElementSibling;
+        const briefText = difficulteText.previousElementSibling
+        const blocage = briefs.filter(brief =>  brief.titre === briefText.innerText).map(brief=>brief.blocages.find(blocage => blocage && blocage.difficulte===difficulteText.innerText))
+
+        if (blocage[0].modal) {
+            const modalType = blocage[0].modal.description;
+            const commentary = blocage[0].modal.commentaire;
+            document.getElementById("afficher").style.display = "flex";
+            document.querySelector("#afficher div p").innerHTML = `<p>Difficulty: ${difficulteText.innerText}</p><p>Type: ${modalType}</p><p>Commentary: ${commentary}</p>`;
+        } else {
+            document.getElementById("afficher").style.display = "flex";
+            document.querySelector("#afficher div p").textContent = `Difficulty: ${difficulteText.innerText}`;
+
+        }
+    });
 });
+
+
+
 
 const afficher = document.getElementById("afficher")
 
@@ -127,61 +268,30 @@ afficher.querySelector("i").addEventListener("click", (e) => {
         afficher.style.display = "none";
 });
 
-    document.querySelectorAll(".ri-file-edit-line").forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
-            let userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom)); 
-            document.getElementById("modifier-brief").innerHTML += ``;
-            userBriefs.map(brief=>{
-                document.getElementById("modifier-brief").innerHTML += `<option value="${brief.titre}">${brief.titre}</option>`;
-            })
-            const row = btn.closest("tr");
-            const cells = row.querySelectorAll("td");
-            document.getElementById("modifier-difficulte").value = cells[6].innerText;
-            document.getElementById("modifier").style.display = "flex";
-            document.querySelector("#modifier form").addEventListener("submit",(e)=>{
-                e.preventDefault();
-                let briefInput = document.getElementById("modifier-brief").value;
-                let difficulteInput = document.getElementById("modifier-difficulte").value;
-                if (difficulteInput == "" ) {
-                  return alert("Tous les champs doivent être remplis.");
-                }
+document.querySelectorAll(".ri-file-edit-line").forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
+        let userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom)); 
 
-                if (briefInput !== cells[5].innerText) {
-                    const briefToRemoveBlocage = userBriefs.find(brief => brief.titre === cells[5].innerText);
-                    briefToRemoveBlocage.blocages = briefToRemoveBlocage.blocages.filter(blocage => blocage.difficulte !== cells[6].innerText);
-                
-                    const newBrief = userBriefs.find(brief => brief.titre === briefInput);
-                    newBrief.blocages.push({
-                        etudiant: authenticatedUser.user.nom,
-                        difficulte: difficulteInput,
-                        valide: false,
-                        date: new Date().toISOString().slice(10),
-                    });
-                
-                    console.log(userBriefs);
-                }
-                
-                else if ( difficulteInput !== cells[6].innerText) {
-                    const briefToUpdateBlocage = userBriefs.find(brief => brief.titre === briefInput);
-    
+        document.getElementById("modifier-brief").innerHTML = "";
+        userBriefs.forEach(brief => {
+            document.getElementById("modifier-brief").innerHTML += `<option value="${brief.titre}">${brief.titre}</option>`;
+        });
 
-                    const blocageToUpdate = briefToUpdateBlocage.blocages.find(blocage => blocage.difficulte === cells[6].innerText)
-                    blocageToUpdate.difficulte = difficulteInput
-                }
-                // console.log(userBriefs)
-                const filteredBriefs = briefs.filter(brief => brief.group && brief.group.every(nom => nom !== authenticatedUser.user.nom));
-            
-                const updatedBriefs = [...userBriefs,...filteredBriefs]
-                localStorage.setItem("briefs", JSON.stringify(updatedBriefs));
-              
-                document.getElementById("modifier").style.display = "none";
-            })
-            
+        const row = btn.closest("tr");
+        const cells = row.querySelectorAll("td");
+        document.getElementById("modifier-brief").value = cells[4].innerText;
+        document.getElementById("modifier-difficulte").value = cells[6].innerText;
+        document.getElementById("modifier").style.display = "flex";
+
+        const modifierForm = document.querySelector("#modifier form");
+        modifierForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            handleModifier(cells, userBriefs);
         });
     });
+});
 
-    
 const modifier = document.getElementById("modifier")
 
 
@@ -220,7 +330,7 @@ deleteButton.addEventListener("click", () => {
       const row = checkbox.closest("tr");
       const cells = row.querySelectorAll("td");
   
-      return {brief: cells[4].innerText, difficulte: cells[5].innerText};
+      return {brief: cells[5].innerText, difficulte: cells[6].innerText};
     });
   
     const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : [];
@@ -228,16 +338,16 @@ deleteButton.addEventListener("click", () => {
     selectedBlocages.forEach(selected => {
       const userBriefs = briefs.find(brief => brief.titre === selected.brief);
       if (userBriefs) {
-        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte);
+        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte)
+
       }
     });
   
     Array.from(checkedCheckboxes).map(checkbox => {
       const row = checkbox.closest("tr").remove();
-    })
-  
+    }) 
+    
     localStorage.setItem("briefs", JSON.stringify(briefs));
   
-    console.log("briefs", briefs);
   });
   

@@ -19,6 +19,8 @@ document.querySelector(".form").addEventListener("submit",(e)=>{
         password: passwordInput,
         bootcamp: bootcampInput,
         isAdmin:false
-    })
-    console.log(users);
+    })  
+    localStorage.setItem("users",JSON.stringify(users))
+    window.location.href ="./signin.html"
+    
 })
