@@ -137,6 +137,26 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
       });
     
 })
+document.querySelectorAll(".ri-eye-line").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+      const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
+      const difficulteText = e.target.parentElement.previousElementSibling;
+      const briefText = difficulteText.previousElementSibling
+      const blocage = briefs.filter(brief =>  brief.titre === briefText.innerText).map(brief=>brief.blocages.find(blocage => blocage && blocage.difficulte===difficulteText.innerText))
+      console.log(blocage[0])
+      if (blocage[0].modal) {
+        const modalType = blocage[0].modal.description;
+        const commentary = blocage[0].modal.commentaire;
+        document.getElementById("afficher").style.display = "flex";
+        document.querySelector("#afficher div ").innerHTML = `<h1>Etudiant:</h1><p> ${blocage[0].etudiant}</p><br><h1>Date:</h1><p> ${blocage[0].date}</p><br><h1>Brief:</h1><p> ${briefText.innerText}</p><br><h1>Difficulty:</h1><p> ${difficulteText.innerText}</p><br><h1>Type:</h1><p> ${modalType}</p><p>Commentary: ${commentary}</p>`;
+    } else {
+        document.getElementById("afficher").style.display = "flex";
+        document.querySelector("#afficher div ul").innerHTML = `<h1>Etudiant:</h1><p> ${blocage[0].etudiant}</p><br><h1>Date:</h1><p> ${blocage[0].date}</p><br><h1>Brief:</h1><p> ${briefText.innerText}</p><br><h1>Difficulty:</h1><p> ${difficulteText.innerText}</p>`;
+
+    }
+  });
+});
+
 document.querySelector(".ri-arrow-left-line").addEventListener("click",()=>{
   const index = parseInt(new URLSearchParams(window.location.search).get("index")) || 0;
 if (index === 0) return;
