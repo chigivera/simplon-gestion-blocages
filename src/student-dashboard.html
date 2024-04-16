@@ -44,14 +44,14 @@
             <div class="filter">
                     <form action="#" class="filter-form">
                     <label class="name" for="difficulte-search"><i class="ri-search-line"></i><input id="difficulte-search" type="text" placeholder="Recherche par Difficulte" value=""></label>
-                    <input type="date" name="date" id="date">
+                    <input type="date" name="date" id="date" placeholder="" value=""> 
                     <label class="valide" for="valide">
                         <input type="checkbox" name="valide" id="valide"> Valide
                     </label>
                     <button type="submit" class="filter-btn">Filtrer</button>
                 </form>
                 </div>
-                <div>
+                <div class="crud">
                     <button class="delete">Supprimer</button>
                     <button class="add">Ajouter</button>
     
@@ -59,7 +59,7 @@
     
         </div>
         <div class="table-blocages">
-            <table>
+            <table class="student-dashboard">
                 <thead>
                     <tr>
                       <th>Check</th>
@@ -78,11 +78,10 @@
             <div class="pagination">
                 <ul>
                     <li><a href=""><i class="ri-arrow-left-line"></i></a></li>
-                    <li><a href="?index=0" class="active">1</a></li>
-                    <li><a href="?index=1">2</a></li>
-                    <li><a href="?index=2">3</a></li>
-                    <li><a href="?index=3">4</a></li>
-                    <li><a href="?index=4">5</a></li>
+                    <div>
+                    </div>
+
+                        
                     <li><a href=""><i class="ri-arrow-right-line"></i></a></li>
                 </ul>
             </div>
@@ -91,7 +90,7 @@
     <footer><h3><sub>futur Talents School @Copyright reserved</sub></h3></footer>
     <div id="ajouter">
         
-        <form action="" method="post">
+        <form action="" method="post" class="form">
        
             <div style="width: 100%;display: flex;justify-content: right;">
                 <i class="ri-close-large-fill"></i>
@@ -122,7 +121,7 @@
     </div>
     <div id="modifier">
         
-        <form action="" method="post">
+        <form action="" method="post" class="form">
             <div style="width: 100%;display: flex;justify-content: right;">
                 <i class="ri-close-large-fill"></i>
 
@@ -143,7 +142,7 @@
 
         </form>
     </div>
-    <div class="" id="afficher">
+    <div class="" id="afficher" >
         
        <div class="">
         <i class="ri-close-large-fill"></i>

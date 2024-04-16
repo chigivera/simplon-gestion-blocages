@@ -1,7 +1,22 @@
 const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
 const authenticatedUser = localStorage.getItem("foundUser") ? JSON.parse(localStorage.getItem("foundUser")) : null;
+if(!authenticatedUser) {
+  window.location.href = "signin.html";
+} 
 const radioButton = document.getElementById("resolution1");
 const textarea = document.getElementById("resolutionTextarea");
+const userBriefsLength = briefs
+  .filter(brief => brief.formatteur === authenticatedUser.user.nom)
+  .map(brief => brief.blocages.length);
+
+const totalBlocages = userBriefsLength.reduce((total, num) => total + num, 0);
+window.addEventListener("load", () => {
+    let indexDiv = Math.ceil(totalBlocages / 5);
+    for (let i = 0; i <= indexDiv -1; i++) {
+
+      document.querySelector(".pagination div").innerHTML += `<li><a href="?index=${i}">${i+1}</a></li>`;
+    }
+  });
 const handleModal = (e, btn, cells) => {
     e.preventDefault();
     const radioButtons = document.querySelectorAll('input[name="resolution"]');
@@ -34,13 +49,13 @@ radioButton.addEventListener("change", () => {
     textarea.disabled = true;
   }
 }); 
-if(!authenticatedUser) {
-    window.location.href = "signin.html";
-} else if (briefs) {
+ if (briefs) {
     const table = document.querySelector("tbody")
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5 || 0; 
+
     const userBriefs = briefs.filter(brief => brief.formatteur === authenticatedUser.user.nom);
-    userBriefs.map((brief,index) => {
-        brief.blocages.map(blocage => {
+    userBriefs.map((brief) => {
+        brief.blocages.slice(index,index+5).map(blocage => {
                 table.innerHTML += `
                 <tr>
                 <td><input class="delete-checkbox" type="checkbox" name="" id=""></td>
@@ -122,7 +137,31 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
       });
     
 })
+document.querySelector(".ri-arrow-left-line").addEventListener("click",()=>{
+  const index = parseInt(new URLSearchParams(window.location.search).get("index")) || 0;
+if (index === 0) return;
 
+const newIndex = index - 1;
+const urlParams = new URLSearchParams(window.location.search);
+urlParams.set("index", newIndex);
+window.history.pushState({}, "", `?${urlParams.toString()}`);
+
+
+})
+document.querySelector(".ri-arrow-right-line").addEventListener("click", () => {
+  const index = parseInt(new URLSearchParams(window.location.search).get("index")) || 0;
+  const totalPages = Math.ceil(totalBlocages / 5);
+  const newIndex = index + 1;
+
+  if (newIndex >= totalPages) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set("index", newIndex);
+  window.history.pushState({}, "", `?${urlParams.toString()}`);
+
+ 
+
+});
 document.querySelectorAll(".ri-eye-line").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const difficulteText = e.target.parentElement.previousElementSibling.innerText;

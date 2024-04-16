@@ -52,6 +52,9 @@ header nav a:not(a:last-child) {
     padding-right: 7px;
 }
 header img {
+    width: 28px;
+}
+header .img {
     height: 25px;
     margin-right: 10px;
  
@@ -185,4 +188,50 @@ footer{
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+@media (max-width:700px) {
+    body {
+        width: 700px;
+        overflow: hidden;
+    }
+    .user-options {
+        display: none;
+    }  
+    .img {
+        padding: 0;
+    }
+    .logo p{
+        display: none;
+    }
+    .profile-dropdown i {
+        margin-right: 0;
+    }
+    .header {
+        padding: 0;
+        justify-content: unset;
+        width: 700px;
+        overflow: hidden;
+    }
+    .profile-dropdown p {
+        display: none;
+    }
+    .header > *{
+        margin-left: 46px;
+    }
+    
+    .logo {
+        display: block;
+        padding: 0;
+        margin-left: 0;
+    }
+    main {
+        width: 200%;
+        justify-content: start;
+        align-items: start;
+        flex-direction: column;
+    }
+    .notification {
+        height: 300px;
+    }
 }

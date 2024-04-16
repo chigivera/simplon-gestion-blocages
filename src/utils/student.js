@@ -1,6 +1,20 @@
 const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
 const authenticatedUser = localStorage.getItem("foundUser") ? JSON.parse(localStorage.getItem("foundUser")) : null; 
+if(!authenticatedUser) {
+    window.location.href = "signin.html";
+} 
+const userBriefsLength = briefs
+  .filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom))
+  .map(brief => brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).length);
 
+const totalBlocages = userBriefsLength.reduce((total, num) => total + num, 0);
+window.addEventListener("load", () => {
+    let indexDiv = Math.ceil(totalBlocages / 5);
+    for (let i = 0; i <= indexDiv -1; i++) {
+
+      document.querySelector(".pagination div").innerHTML += `<li><a href="?index=${i}">${i+1}</a></li>`;
+    }
+  });
 const handleModifier = (cells, userBriefs) => {
     let briefInput = document.getElementById("modifier-brief").value;
     let difficulteInput = document.getElementById("modifier-difficulte").value;
@@ -39,20 +53,41 @@ const handleModifier = (cells, userBriefs) => {
     document.getElementById("modifier").style.display = "none";
 }
 
+document.querySelector(".ri-arrow-left-line").addEventListener("click",()=>{
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) || 0;
+  if (index === 0) return;
+
+  const newIndex = index - 1;
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set("index", newIndex);
+  window.history.pushState({}, "", `?${urlParams.toString()}`);
 
 
-if(!authenticatedUser) {
-    window.location.href = "signin.html";
-} else if (briefs) {
+})
+document.querySelector(".ri-arrow-right-line").addEventListener("click", () => {
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) || 0;
+    const totalPages = Math.ceil(totalBlocages / 5);
+    const newIndex = index + 1;
+  
+    if (newIndex >= totalPages) return;
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("index", newIndex);
+    window.history.pushState({}, "", `?${urlParams.toString()}`);
+  
+   
+  
+  });
+
+if (briefs) {
     const table = document.querySelector("tbody")
-    let userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
-    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5;
-    if(index) {
-        userBriefs =  userBriefs.slice(index,index+6)
-    }
+    const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
+    
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5 || 0; 
 
-    userBriefs.map((brief,index) => {
-        brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).map(blocage => {
+    userBriefs.map((brief) => {
+        brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).slice(index,index+5).map(blocage => {
+ 
             table.innerHTML += `
             <tr>
                   <td><input class="delete-checkbox" type="checkbox" name="delete" id="${index}"></td>

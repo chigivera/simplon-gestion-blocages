@@ -43,3 +43,8 @@ button {
 i {
     font-family: none;
 }
+@media (max-width:700px) {
+        body {
+            width: 700px;
+        }
+}
