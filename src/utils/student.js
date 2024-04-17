@@ -13,7 +13,6 @@ window.addEventListener("load", () => {
     for (let i = 0; i <= indexDiv -1; i++) {
 
       document.querySelector(".pagination div").innerHTML += `<li><a href="?index=${i}">${i+1}</a></li>`;
-      // console.log(document.querySelector(".pagination div").innerHTML)
     }
   });
 const handleModifier = (cells, userBriefs) => {
@@ -108,7 +107,6 @@ document.querySelector(".ri-arrow-right-line").addEventListener("click", () => {
             
     
     ).slice(index,index+5).map((blocage,index) => {
-      console.log(blocage)
     totalBlocagesFiltered++
             table.innerHTML += `
             <tr>
@@ -229,7 +227,6 @@ document.querySelector(".add").addEventListener("click",()=>{
     document.querySelector("#ajouter").style.display = "flex";
     const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
     const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
-    console.log(userBriefs)
     userBriefs.map(brief => {
         const option = document.createElement("option");
         option.textContent = brief.titre;
@@ -273,7 +270,6 @@ document.querySelectorAll(".ri-eye-line").forEach((btn) => {
         const difficulteText = e.target.parentElement.previousElementSibling;
         const briefText = difficulteText.previousElementSibling
         const blocage = briefs.filter(brief =>  brief.titre === briefText.innerText).map(brief=>brief.blocages.find(blocage => blocage && blocage.difficulte===difficulteText.innerText))
-        console.log(blocage[0])
         if (blocage[0].modal) {
           const modalType = blocage[0].modal.description;
           const commentary = blocage[0].modal.commentaire;
@@ -376,7 +372,6 @@ deleteButton.addEventListener("click", () => {
     Array.from(checkedCheckboxes).map(checkbox => {
       const row = checkbox.closest("tr").remove();
     }) 
-    console.log(briefs)
     localStorage.setItem("briefs", JSON.stringify(briefs));
   
   });

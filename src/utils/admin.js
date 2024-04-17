@@ -86,7 +86,7 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
     const userBriefs = briefs.filter(brief => brief.formatteur === authenticatedUser.user.nom);
     userBriefs.map(brief => {
         brief.blocages.filter(blocage => {
-            console.log(blocage)
+  
             let match = true;
     if (difficulteInput !== "") {
         match = match && blocage.difficulte.toLowerCase().includes(difficulteInput.toLowerCase());
@@ -97,7 +97,6 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
     if (valideInput !== undefined) {
         match = match && blocage.valide === valideInput;
     }
-    console.log(match)
     return match && brief.formatteur === authenticatedUser.user.nom;
         }).map((blocage,index) => {
             table.innerHTML += `
@@ -137,7 +136,6 @@ document.querySelectorAll(".ri-eye-line").forEach((btn) => {
       const difficulteText = e.target.parentElement.previousElementSibling;
       const briefText = difficulteText.previousElementSibling
       const blocage = briefs.filter(brief =>  brief.titre === briefText.innerText).map(brief=>brief.blocages.find(blocage => blocage && blocage.difficulte===difficulteText.innerText))
-      console.log(blocage[0])
       if (blocage[0].modal) {
         const modalType = blocage[0].modal.description;
         const commentary = blocage[0].modal.commentaire;
