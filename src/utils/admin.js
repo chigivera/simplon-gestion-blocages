@@ -128,13 +128,7 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
           });
         });
       });
-      document.querySelectorAll(".ri-eye-line").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          const difficulteText = e.target.parentElement.previousElementSibling.innerText;
-          document.getElementById("afficher").style.display = "flex";
-          document.querySelector("#afficher div p").textContent = difficulteText
-        });
-      });
+ 
     
 })
 document.querySelectorAll(".ri-eye-line").forEach((btn) => {
@@ -148,7 +142,7 @@ document.querySelectorAll(".ri-eye-line").forEach((btn) => {
         const modalType = blocage[0].modal.description;
         const commentary = blocage[0].modal.commentaire;
         document.getElementById("afficher").style.display = "flex";
-        document.querySelector("#afficher div ").innerHTML = `<h1>Etudiant:</h1><p> ${blocage[0].etudiant}</p><br><h1>Date:</h1><p> ${blocage[0].date}</p><br><h1>Brief:</h1><p> ${briefText.innerText}</p><br><h1>Difficulty:</h1><p> ${difficulteText.innerText}</p><br><h1>Type:</h1><p> ${modalType}</p><p>Commentary: ${commentary}</p>`;
+        document.querySelector("#afficher div ul").innerHTML = `<h1>Etudiant:</h1><p> ${blocage[0].etudiant}</p><br><h1>Date:</h1><p> ${blocage[0].date}</p><br><h1>Brief:</h1><p> ${briefText.innerText}</p><br><h1>Difficulty:</h1><p> ${difficulteText.innerText}</p><br><h1>Type:</h1><p> ${modalType}</p><p>Commentary: ${commentary}</p>`;
     } else {
         document.getElementById("afficher").style.display = "flex";
         document.querySelector("#afficher div ul").innerHTML = `<h1>Etudiant:</h1><p> ${blocage[0].etudiant}</p><br><h1>Date:</h1><p> ${blocage[0].date}</p><br><h1>Brief:</h1><p> ${briefText.innerText}</p><br><h1>Difficulty:</h1><p> ${difficulteText.innerText}</p>`;
@@ -226,45 +220,3 @@ const modal = document.getElementById("modal")
           modal.style.display = "none";
   });
 
-
-  
-const deleteButton = document.querySelector(".delete");
-deleteButton.addEventListener("click", () => {
-    const checkedCheckboxes = document.querySelectorAll(".delete-checkbox:checked");
-  
-    if (checkedCheckboxes.length === 0) {
-      alert("Veuillez selectionner au moins un blocage.");
-      return;
-    }
-  
-    const confirmed = confirm("Etes-vous sur de vouloir supprimer ces blocages ?");
-  
-    if (!confirmed) {
-      return;
-    }
-  
-    const selectedBlocages = Array.from(checkedCheckboxes).map(checkbox => {
-      const row = checkbox.closest("tr");
-      const cells = row.querySelectorAll("td");
-  
-      return {brief: cells[4].innerText, difficulte: cells[5].innerText};
-    });
-  
-    const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : [];
-  
-    selectedBlocages.forEach(selected => {
-      const userBriefs = briefs.find(brief => brief.titre === selected.brief);
-      if (userBriefs) {
-        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte);
-      }
-    });
-  
-    Array.from(checkedCheckboxes).map(checkbox => {
-      const row = checkbox.closest("tr").remove();
-    })
-  
-    localStorage.setItem("briefs", JSON.stringify(briefs));
-  
-    console.log("briefs", briefs);
-  });
-  

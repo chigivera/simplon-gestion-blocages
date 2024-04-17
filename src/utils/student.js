@@ -13,6 +13,7 @@ window.addEventListener("load", () => {
     for (let i = 0; i <= indexDiv -1; i++) {
 
       document.querySelector(".pagination div").innerHTML += `<li><a href="?index=${i}">${i+1}</a></li>`;
+      // console.log(document.querySelector(".pagination div").innerHTML)
     }
   });
 const handleModifier = (cells, userBriefs) => {
@@ -27,13 +28,13 @@ const handleModifier = (cells, userBriefs) => {
     if (briefInput !== cells[5].innerText) {
         const briefToRemoveBlocage = userBriefs.find(brief => brief.titre === cells[5].innerText);
         briefToRemoveBlocage.blocages = briefToRemoveBlocage.blocages.filter(blocage => blocage.difficulte !== cells[6].innerText);
-    
         const newBrief = userBriefs.find(brief => brief.titre === briefInput);
+        const newDate =new Date().toISOString().slice(0,10)
         newBrief.blocages.push({
             etudiant: authenticatedUser.user.nom,
             difficulte: difficulteInput,
             valide: false,
-            date: new Date().toISOString().slice(10),
+            date: newDate,
         });
     
     }
@@ -51,6 +52,7 @@ const handleModifier = (cells, userBriefs) => {
     localStorage.setItem("briefs", JSON.stringify(updatedBriefs));
   
     document.getElementById("modifier").style.display = "none";
+    window.location.reload()
 }
 
 document.querySelector(".ri-arrow-left-line").addEventListener("click",()=>{
@@ -78,36 +80,10 @@ document.querySelector(".ri-arrow-right-line").addEventListener("click", () => {
    
   
   });
-
-if (briefs) {
-    const table = document.querySelector("tbody")
-    const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
-    
-    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5 || 0; 
-
-    userBriefs.map((brief) => {
-        brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).slice(index,index+5).map(blocage => {
- 
-            table.innerHTML += `
-            <tr>
-                  <td><input class="delete-checkbox" type="checkbox" name="delete" id="${index}"></td>
-                  <td>${brief.group.join(", ")}</td>
-                  <td>${brief.formatteur}</td>
-                  <td><input type="checkbox" name="" id="" disabled ${blocage.valide && "checked"}></td>
-                  <td>${blocage.date}</td>
-                  <td>${brief.titre}</td>
-                  <td>${blocage.difficulte}</td>
-                  <td><i class="ri-eye-line"></i></td>
-                  <td><i class="ri-file-edit-line"></i></td>
-                </tr>
-            `
-        })
-    })
-
-}
-
-document.querySelector(".filter-form").addEventListener("submit",(e)=>{
+  document.querySelector(".filter-form").addEventListener("submit",(e)=>{
     e.preventDefault()
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5 || 0; 
+    let totalBlocagesFiltered = 0
     const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
     const difficulteInput = document.querySelector("#difficulte-search").value;
     const dateInput = document.querySelector("#date").value
@@ -131,7 +107,9 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
         }
             
     
-    ).map((blocage,index) => {
+    ).slice(index,index+5).map((blocage,index) => {
+      console.log(blocage)
+    totalBlocagesFiltered++
             table.innerHTML += `
             <tr>
                   <td><input class="delete-checkbox" id=${index} type="checkbox" name="delete"/></td>
@@ -147,6 +125,13 @@ document.querySelector(".filter-form").addEventListener("submit",(e)=>{
             `
         })
     })
+   
+ 
+    document.querySelector(".pagination div").innerHTML = ``;
+    let indexDiv = Math.ceil(totalBlocagesFiltered / 5);
+    for (let i = 0; i <= indexDiv -1; i++) {
+      document.querySelector(".pagination div").innerHTML += `<li><a href="?index=${i}">${i+1}</a></li>`;
+    }
     document.querySelectorAll(".ri-file-edit-line").forEach((btn) => {
         btn.addEventListener("click", () => {
             const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
@@ -198,25 +183,53 @@ deleteButton.addEventListener("click", () => {
     selectedBlocages.forEach(selected => {
       const userBriefs = briefs.find(brief => brief.titre === selected.brief);
       if (userBriefs) {
-        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte)
+        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte && blocage.valide)
       }
     });
   
     Array.from(checkedCheckboxes).map(checkbox => {
       const row = checkbox.closest("tr").remove();
     }) 
-    
     localStorage.setItem("briefs", JSON.stringify(briefs));
   
   });
   
 })
 
+if (briefs) {
+    const table = document.querySelector("tbody")
+    const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
+    
+    const index = parseInt(new URLSearchParams(window.location.search).get("index")) * 5 || 0; 
+
+    userBriefs.map((brief) => {
+        brief.blocages.filter(blocage => blocage.etudiant === authenticatedUser.user.nom).slice(index,index+5).map(blocage => {
+ 
+            table.innerHTML += `
+            <tr>
+                  <td><input class="delete-checkbox" type="checkbox" name="delete" id="${index}" ${blocage.valide && "disabled"}></td>
+                  <td>${brief.group.join(", ")}</td>
+                  <td>${brief.formatteur}</td>
+                  <td><input type="checkbox" name="" id="" disabled ${blocage.valide && "checked"}></td>
+                  <td>${blocage.date}</td>
+                  <td>${brief.titre}</td>
+                  <td>${blocage.difficulte}</td>
+                  <td><i class="ri-eye-line"></i></td>
+                  <td><i class=${!blocage.valide ? "ri-file-edit-line" : "ri-spam-2-line"}></i></td>
+                </tr>
+            `
+        })
+    })
+
+}
+
+
+
 document.querySelector(".add").addEventListener("click",()=>{
     document.querySelector("#ajouter").style.display = "flex";
     const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : null;
     const userBriefs = briefs.filter(brief => brief.group && brief.group.some(nom => nom === authenticatedUser.user.nom));
-
+    console.log(userBriefs)
     userBriefs.map(brief => {
         const option = document.createElement("option");
         option.textContent = brief.titre;
@@ -355,7 +368,7 @@ deleteButton.addEventListener("click", () => {
     selectedBlocages.forEach(selected => {
       const userBriefs = briefs.find(brief => brief.titre === selected.brief);
       if (userBriefs) {
-        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte)
+        userBriefs.blocages = userBriefs.blocages.filter(blocage => blocage.difficulte !== selected.difficulte && blocage.valide)
 
       }
     });
@@ -363,7 +376,7 @@ deleteButton.addEventListener("click", () => {
     Array.from(checkedCheckboxes).map(checkbox => {
       const row = checkbox.closest("tr").remove();
     }) 
-    
+    console.log(briefs)
     localStorage.setItem("briefs", JSON.stringify(briefs));
   
   });

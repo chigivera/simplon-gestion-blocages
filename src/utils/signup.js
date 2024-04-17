@@ -1,5 +1,5 @@
 const users = localStorage.getItem("users") ? JSON.parse(localStorage.getItem("users")) : [];
-
+const briefs = localStorage.getItem("briefs") ? JSON.parse(localStorage.getItem("briefs")) : [];
 
 
 document.querySelector(".form").addEventListener("submit",(e)=>{
@@ -20,6 +20,10 @@ document.querySelector(".form").addEventListener("submit",(e)=>{
         bootcamp: bootcampInput,
         isAdmin:false
     })  
+    briefs.filter(brief => brief.bootcamp === bootcampInput).map(brief => {
+        brief.group.push(nameInput)
+    })
+    localStorage.setItem("briefs",JSON.stringify(briefs))
     localStorage.setItem("users",JSON.stringify(users))
     window.location.href ="./signin.html"
     

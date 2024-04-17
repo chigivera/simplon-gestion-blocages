@@ -21,7 +21,7 @@ export const briefs = [
         
         dateDeCreation: "2024-04-10",
         titre: "Build a CRUD Application",
-        group: ["Ayman Benchamkha"],
+        group: ["Ayman Benchamkha",],
         bootcamp: "React",
         blocages:[
             {

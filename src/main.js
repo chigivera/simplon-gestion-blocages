@@ -1,7 +1,4 @@
-import { briefs } from "./data/briefs.js";
-import { utilisateurs } from "./data/users.js";
-localStorage.setItem("users", JSON.stringify(utilisateurs));
-localStorage.setItem("briefs",JSON.stringify(briefs))
+
 
 const logoutBtn = document.getElementById("logout");
 const profileDropdown = document.querySelector(".profile-dropdown")

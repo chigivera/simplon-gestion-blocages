@@ -279,15 +279,19 @@ table tr td {
 }
 
 #afficher {
-    height: 100vh;
+    height:max-content;
     width: 100vw;
     position: absolute;
     top: 0;
+    margin-top: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
     display: none;
     object-fit: contain;
+}
+#afficher ul {
+    padding: 5%;
 }
 #afficher div {
     box-shadow: 0 0 20px 7px rgba(0, 0, 0, 0.2);
